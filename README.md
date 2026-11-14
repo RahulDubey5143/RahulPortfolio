@@ -1,4 +1,4 @@
-# Rahul Kumar Portfolio
+# Rahul Dubey Portfolio
 
 ## Run locally
 
@@ -18,7 +18,7 @@ npm run dev
 
 - Replace the LinkedIn and GitHub placeholder URLs in `App.jsx`.
 - Add `profile.png` to `public/` for the profile photo.
-- Add `Rahul_Kumar_CV.pdf` to `public/` for the Download CV links.
+- Add `Rahul_dubey_CV.pdf` to `public/` for the Download CV links.
 - Update any profile details or project links in `App.jsx`.
 
 The contact form uses FormSubmit's AJAX endpoint. The first submission may require email activation from FormSubmit.
