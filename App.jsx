@@ -34,7 +34,7 @@ const PROFILE = {
   phoneRaw: "919309579769",
   linkedin: "https://www.linkedin.com/in/rahul-dubey-44b220281",
   github: "https://github.com/your-username",
-  cv: "/Rahul_Kumar_CV.pdf",
+  cv: "/Rahul_Dubey.Resume.pdf",
   photo: "/photo/profile.png",
   location: "Nashik, Maharashtra, India",
 };
@@ -237,7 +237,7 @@ function Navbar() {
             </a>
           ))}
         </nav>
-        <a href={PROFILE.cv} download className="btn btn--primary">
+        <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
           <Download size={18} /> Download CV
         </a>
       </div>
@@ -293,7 +293,7 @@ function Hero() {
           <p className="hero__tagline">{PROFILE.tagline}</p>
 
           <div className="hero__actions">
-            <a href={PROFILE.cv} download className="btn btn--primary">
+            <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
               <Download size={18} /> Download CV
             </a>
             <a href="#projects" className="btn btn--outline">
