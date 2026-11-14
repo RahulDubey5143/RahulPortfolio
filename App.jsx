@@ -133,13 +133,13 @@ const PROJECTS = [
     title: "SAK Marathi",
     text: "I working on this project and This application is basically used for matrimony",
     tags: ["Java", "Model-view-viewmodel (MVVM)", "Firebase", "Retrofit", "REST APIs"],
-    link: "#",
+    link: "https://play.google.com/store/apps/details?id=com.sak.marathiapplication&hl=en_IN",
   },
   {
     title: "Mitra Agro",
     text: "Implemented Service Request Management module for handling customer requests and complaints with real-time push notifications, automated issue routing, and production performance tracking",
     tags: ["Kotlin", "Model-view-viewmodel (MVVM)", "Firebase", "Retrofit", "REST APIs"],
-    link: "#",
+    link: "https://play.google.com/store/apps/details?id=com.applicationsquare.mitracustomer&hl=en",
   },
 ];
 
@@ -160,9 +160,9 @@ function Reveal({ variant = "up", delay = 0, once = false, className = "", child
       ([entry]) => {
         if (entry.isIntersecting) {
           setShown(true);
-          if (once) io.disconnect(); // pass `once` to animate only the first time
+          if (once) io.disconnect();
         } else if (!once) {
-          setShown(false); // reset when it leaves, so it animates again next time
+          setShown(false);
         }
       },
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
