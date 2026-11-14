@@ -237,7 +237,7 @@ function Navbar() {
             </a>
           ))}
         </nav>
-        <a href={PROFILE.cv} download="Rahul_Dubey.Resume.pdf" className="btn btn--primary">
+        <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
           <Download size={18} /> Download CV
         </a>
       </div>
@@ -293,7 +293,7 @@ function Hero() {
           <p className="hero__tagline">{PROFILE.tagline}</p>
 
           <div className="hero__actions">
-            <a href={PROFILE.cv} download="Rahul_Dubey.Resume.pdf" className="btn btn--primary">
+            <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
               <Download size={18} /> Download CV
             </a>
             <a href="#projects" className="btn btn--outline">
