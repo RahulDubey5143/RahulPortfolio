@@ -15,6 +15,12 @@ import {
   Send,
   MessageCircle,
   Smartphone,
+  Menu,
+  X,
+  MapPin,
+  Layers,
+  Sparkles,
+  Bug,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import "./App.css";
@@ -41,48 +47,53 @@ const PROFILE = {
 
 const NAV = [
   { label: "ABOUT", href: "#about" },
+  { label: "SKILLS", href: "#skills" },
   { label: "EXPERIENCE", href: "#experience" },
   { label: "PROJECTS", href: "#projects" },
   { label: "CONTACT", href: "#contact" },
+];
+
+const STATS = [
+  { value: "2+", label: "Years of experience" },
+  { value: "3", label: "Production apps shipped" },
+  { value: "Kotlin", label: "Primary language" },
+  { value: "KMP", label: "Cross-platform ready" },
 ];
 
 const STACK = [
   {
     icon: Smartphone,
     title: "Android Development",
-    text: "Kotlin, Java, Android SDK, Jetpack Compose, XML, MVVM, Coroutines, Flow, LiveData",
+    items: ["Kotlin", "Java", "Android SDK", "Jetpack Compose", "XML", "MVVM", "Coroutines", "Flow", "LiveData"],
   },
   {
     icon: Code2,
-    title: "Cross-Platform Development",
-    text: "Kotlin Multiplatform (KMP), Compose Multiplatform, Ktor Client, REST API Integration",
+    title: "Cross-Platform",
+    items: ["Kotlin Multiplatform (KMP)", "Compose Multiplatform", "Ktor Client", "REST API Integration"],
   },
   {
     icon: Database,
     title: "Database & Storage",
-    text: "Room Database, SQLite, SQL, DataStore, JSON Serialization",
+    items: ["Room Database", "SQLite", "SQL", "DataStore", "JSON Serialization"],
   },
   {
     icon: Wrench,
     title: "Tools & Technologies",
-    text: "Android Studio, IntelliJ IDEA, Git, GitHub, Postman, Jira, Gradle",
+    items: ["Android Studio", "IntelliJ IDEA", "Git", "GitHub", "Postman", "Jira", "Gradle"],
   },
   {
     icon: ClipboardCheck,
     title: "Testing & Debugging",
-    text: "Unit Testing, UI Testing, Manual Testing, API Testing, Firebase Crashlytics, Performance Monitoring",
+    items: ["Unit Testing", "UI Testing", "Manual Testing", "API Testing", "Firebase Crashlytics", "Performance Monitoring"],
   },
   {
     icon: Brain,
     title: "Architecture & Concepts",
-    text: "Clean Architecture, Dependency Injection, Repository Pattern, Lifecycle Management, OOP, Design Patterns",
-  },
-  {
-    icon: Users,
-    title: "Soft Skills",
-    text: "Communication, Teamwork, Problem Solving, Analytical Thinking, Adaptability",
+    items: ["Clean Architecture", "Dependency Injection", "Repository Pattern", "Lifecycle Management", "OOP", "Design Patterns"],
   },
 ];
+
+const SOFT_SKILLS = ["Communication", "Teamwork", "Problem Solving", "Analytical Thinking", "Adaptability"];
 
 const EXPERIENCE = [
   {
@@ -125,27 +136,30 @@ const EXPERIENCE = [
 const PROJECTS = [
   {
     title: "Metrics App",
+    icon: Layers,
     text: "Developed a real-time monitoring application for a Sugar Mill to track operational metrics. Implemented alert-based push notifications with custom sounds to notify engineers of critical issues. Used Product Flavors to manage multiple app configurations.",
-    tags: ["Kotlin", "Model-view-viewmodel (MVVM)", "Firebase", "Retrofit", "WorkManager", "ProductFlavors"],
+    tags: ["Kotlin", "MVVM", "Firebase", "Retrofit", "WorkManager", "ProductFlavors"],
     link: "https://github.com/your-username/vtiger-crm-tests",
   },
   {
     title: "SAK Marathi",
-    text: "I working on this project and This application is basically used for matrimony",
-    tags: ["Java", "Model-view-viewmodel (MVVM)", "Firebase", "Retrofit", "REST APIs"],
+    icon: Sparkles,
+    text: "A matrimony application that connects families and individuals looking for the right match. I am actively working on this project, building features and integrating APIs.",
+    tags: ["Java", "MVVM", "Firebase", "Retrofit", "REST APIs"],
     link: "https://play.google.com/store/apps/details?id=com.sak.marathiapplication&hl=en_IN",
   },
   {
     title: "Mitra Agro",
+    icon: Bug,
     text: "Implemented Service Request Management module for handling customer requests and complaints with real-time push notifications, automated issue routing, and production performance tracking",
-    tags: ["Kotlin", "Model-view-viewmodel (MVVM)", "Firebase", "Retrofit", "REST APIs"],
+    tags: ["Kotlin", "MVVM", "Firebase", "Retrofit", "REST APIs"],
     link: "https://play.google.com/store/apps/details?id=com.applicationsquare.mitracustomer&hl=en",
   },
 ];
 
 /* ------------------------ SCROLL ANIMATIONS ------------------------ */
 
-function Reveal({ variant = "up", delay = 0, once = false, className = "", children, ...rest }) {
+function Reveal({ variant = "up", delay = 0, once = true, className = "", children, ...rest }) {
   const ref = useRef(null);
   const [shown, setShown] = useState(false);
 
@@ -203,6 +217,7 @@ function ScrollProgress() {
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const ids = NAV.map((n) => n.href.slice(1));
@@ -224,56 +239,55 @@ function Navbar() {
     <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
       <div className="nav__inner">
         <a href="#top" className="logo">
-          RAHUL<span>Dubey</span>
+          RAHUL<span>.</span>Dubey
         </a>
         <nav className="nav__links">
           {NAV.map((n) => (
-            <a
-              key={n.label}
-              href={n.href}
-              className={active === n.href.slice(1) ? "is-active" : ""}
-            >
+            <a key={n.label} href={n.href} className={active === n.href.slice(1) ? "is-active" : ""}>
               {n.label}
             </a>
           ))}
         </nav>
-        <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
-          <Download size={18} /> Download CV
-        </a>
+        <div className="nav__cta">
+          <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
+            <Download size={17} /> Download CV
+          </a>
+          <button
+            className="nav__burger"
+            aria-label="Toggle menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
+      <nav className={`mobile-menu ${open ? "open" : ""}`}>
+        {NAV.map((n) => (
+          <a key={n.label} href={n.href} onClick={() => setOpen(false)}>
+            {n.label}
+          </a>
+        ))}
+        <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" onClick={() => setOpen(false)}>
+          DOWNLOAD CV
+        </a>
+      </nav>
     </header>
   );
 }
 
-function SocialIcons({ size = 22 }) {
+function SocialIcons({ size = 20 }) {
   return (
     <div className="socials">
-      <a
-        href={PROFILE.linkedin}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="LinkedIn"
-      >
+      <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
         <FaLinkedin size={size} />
       </a>
-
-      <a
-        href={PROFILE.github}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="GitHub"
-      >
+      <a href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub">
         <FaGithub size={size} />
       </a>
-
       <a href={`mailto:${PROFILE.email}`} aria-label="Email">
         <Mail size={size} />
       </a>
-
-      <a
-        href={`tel:${PROFILE.phone.replace(/\s/g, "")}`}
-        aria-label="Phone"
-      >
+      <a href={`tel:${PROFILE.phone.replace(/\s/g, "")}`} aria-label="Phone">
         <Phone size={size} />
       </a>
     </div>
@@ -283,53 +297,80 @@ function SocialIcons({ size = 22 }) {
 function Hero() {
   return (
     <section className="hero" id="top">
-      <div className="container hero__inner">
-        <div className="hero__text">
-          <p className="hero__hello">Hello, I'm</p>
-          <h1 className="hero__name">
-            {PROFILE.firstName} <span>{PROFILE.lastName}</span>
-          </h1>
-          <h2 className="hero__role">{PROFILE.role}</h2>
-          <p className="hero__tagline">{PROFILE.tagline}</p>
+      <div className="container">
+        <div className="hero__inner">
+          <div className="hero__text">
+            <span className="badge">
+              <i /> Open to Android opportunities
+            </span>
+            <h1 className="hero__name">
+              {PROFILE.firstName} <span className="grad-text">{PROFILE.lastName}</span>
+            </h1>
+            <h2 className="hero__role">
+              <b>{PROFILE.role}</b> · Kotlin · Jetpack Compose
+            </h2>
+            <p className="hero__tagline">{PROFILE.tagline}</p>
 
-          <div className="hero__actions">
-            <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--primary">
-              <Download size={18} /> Download CV
-            </a>
-            <a href="#projects" className="btn btn--outline">
-              View My Work <ArrowRight size={18} />
-            </a>
+            <div className="hero__actions">
+              <a href="#projects" className="btn btn--primary">
+                View My Work <ArrowRight size={18} />
+              </a>
+              <a href={PROFILE.cv} download="Rahul-Dubey-Resume.pdf" className="btn btn--ghost">
+                <Download size={18} /> Download CV
+              </a>
+            </div>
+
+            <SocialIcons />
           </div>
 
-          <SocialIcons />
+          <div className="hero__visual">
+            <div className="glow" />
+            <div className="avatar">
+              <img src={PROFILE.photo} alt={`${PROFILE.firstName} ${PROFILE.lastName}`} />
+            </div>
+            <div className="float float--1">
+              <Smartphone size={20} />
+              <div>
+                Kotlin
+                <small>Android &amp; KMP</small>
+              </div>
+            </div>
+            <div className="float float--2">
+              <Code2 size={20} />
+              <div>
+                Jetpack Compose
+                <small>Modern UI toolkit</small>
+              </div>
+            </div>
+            <div className="float float--3">
+              <Layers size={20} />
+              <div>
+                MVVM
+                <small>Clean architecture</small>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="hero__visual">
-          <div className="ring ring--1" />
-          <div className="ring ring--2" />
-          <div className="avatar">
-            <img src={PROFILE.photo} alt={`${PROFILE.firstName} ${PROFILE.lastName}`} />
-          </div>
-          <span className="dot" />
-          <p className="quote">
-            Quality
-            <br />
-            Builds
-            <br />
-            <strong>Trust.</strong>
-          </p>
+        <div className="stats">
+          {STATS.map((s, i) => (
+            <Reveal key={s.label} delay={i * 100}>
+              <div className="stat">
+                <strong className="grad-text">{s.value}</strong>
+                <span>{s.label}</span>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function SectionTitle({ icon: Icon, children }) {
+function SectionTitle({ eyebrow, children }) {
   return (
     <Reveal variant="left" className="section-title">
-      <span className="section-title__icon">
-        <Icon size={24} />
-      </span>
+      <span className="eyebrow">{eyebrow}</span>
       <h2>{children}</h2>
     </Reveal>
   );
@@ -337,12 +378,47 @@ function SectionTitle({ icon: Icon, children }) {
 
 function About() {
   return (
-    <section className="section section--about" id="about">
+    <section className="section" id="about">
       <div className="container">
-        <SectionTitle icon={Users}>About Me</SectionTitle>
-        <Reveal delay={100}>
-          <p className="about__text">{PROFILE.about}</p>
-        </Reveal>
+        <SectionTitle eyebrow="About me">
+          Crafting apps that feel <span className="grad-text">solid</span>
+        </SectionTitle>
+        <div className="about">
+          <Reveal delay={100}>
+            <div className="card about__text">{PROFILE.about}</div>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="card about__facts">
+              <div className="fact">
+                <span className="icon-box">
+                  <MapPin size={22} />
+                </span>
+                <div>
+                  <strong>Location</strong>
+                  <span>{PROFILE.location}</span>
+                </div>
+              </div>
+              <div className="fact">
+                <span className="icon-box">
+                  <Briefcase size={22} />
+                </span>
+                <div>
+                  <strong>Role</strong>
+                  <span>{PROFILE.role}</span>
+                </div>
+              </div>
+              <div className="fact">
+                <span className="icon-box">
+                  <Users size={22} />
+                </span>
+                <div>
+                  <strong>Soft skills</strong>
+                  <span>{SOFT_SKILLS.join(" · ")}</span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -350,19 +426,23 @@ function About() {
 
 function TechStack() {
   return (
-    <section className="section section--about section--tight" id="skills">
+    <section className="section" id="skills">
       <div className="container">
-        <SectionTitle icon={Wrench}>Tech Stack</SectionTitle>
+        <SectionTitle eyebrow="Tech stack">
+          Tools I build <span className="grad-text">with</span>
+        </SectionTitle>
         <div className="grid grid--3">
-          {STACK.map(({ icon: Icon, title, text }, i) => (
+          {STACK.map(({ icon: Icon, title, items }, i) => (
             <Reveal key={title} delay={(i % 3) * 120}>
-              <article className="card card--stack">
-                <span className="card__icon">
-                  <Icon size={20} />
+              <article className="card card--hover card--stack">
+                <span className="icon-box">
+                  <Icon size={24} />
                 </span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+                <h3>{title}</h3>
+                <div className="chips">
+                  {items.map((t) => (
+                    <span key={t}>{t}</span>
+                  ))}
                 </div>
               </article>
             </Reveal>
@@ -375,25 +455,31 @@ function TechStack() {
 
 function Experience() {
   return (
-    <section className="section section--exp" id="experience">
+    <section className="section" id="experience">
       <div className="container">
-        <SectionTitle icon={Briefcase}>Experience &amp; Training</SectionTitle>
-        <div className="grid grid--3">
+        <SectionTitle eyebrow="Experience & training">
+          My professional <span className="grad-text">journey</span>
+        </SectionTitle>
+        <div className="timeline">
           {EXPERIENCE.map((e, i) => (
-            <Reveal key={e.role + e.company} delay={i * 150}>
-              <article className="card card--exp">
-                <span className="card__bullet" />
-                <div className="card--exp__body">
-                  <h3>{e.role}</h3>
-                  <p className="company">{e.company}</p>
-                  <p className="period">{e.period}</p>
+            <Reveal key={e.role + e.company} delay={i * 120} variant="right">
+              <div style={{ position: "relative" }}>
+                <span className="tl-dot" />
+                <article className="card card--hover card--exp">
+                  <div className="exp__head">
+                    <div>
+                      <h3>{e.role}</h3>
+                      <p className="company">{e.company}</p>
+                    </div>
+                    <span className="period">{e.period}</span>
+                  </div>
                   <ul>
                     {e.points.map((p) => (
                       <li key={p}>{p}</li>
                     ))}
                   </ul>
-                </div>
-              </article>
+                </article>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -404,23 +490,31 @@ function Experience() {
 
 function Projects() {
   return (
-    <section className="section section--projects" id="projects">
+    <section className="section" id="projects">
       <div className="container">
-        <SectionTitle icon={Monitor}>Projects</SectionTitle>
+        <SectionTitle eyebrow="Projects">
+          Apps I've <span className="grad-text">built</span>
+        </SectionTitle>
         <div className="grid grid--3">
           {PROJECTS.map((p, i) => (
             <Reveal key={p.title} variant="zoom" delay={i * 150}>
-              <article className="card card--project">
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-                <div className="tags">
-                  {p.tags.map((t) => (
-                    <span key={t}>{t}</span>
-                  ))}
+              <article className="card card--hover card--project">
+                <div className="project__top">
+                  <p.icon size={56} strokeWidth={1.5} />
+                  <span className="project__no">0{i + 1}</span>
                 </div>
-                <a href={p.link} target="_blank" rel="noreferrer" className="link">
-                  View project <ArrowRight size={16} />
-                </a>
+                <div className="project__body">
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                  <div className="chips">
+                    {p.tags.map((t) => (
+                      <span key={t}>{t}</span>
+                    ))}
+                  </div>
+                  <a href={p.link} target="_blank" rel="noreferrer" className="link">
+                    View project <ArrowRight size={16} />
+                  </a>
+                </div>
               </article>
             </Reveal>
           ))}
@@ -453,97 +547,104 @@ function Contact() {
   }
 
   return (
-    <section className="section section--contact" id="contact">
-      <div className="container contact">
-        <Reveal variant="left" className="contact__info">
-          <SectionTitle icon={Mail}>Get In Touch</SectionTitle>
-          <p className="contact__lead">
-            Open to Android Developer opportunities, specializing in Kotlin, Java, Jetpack Compose, and Kotlin Multiplatform (KMP).
-          </p>
-
-          <div className="contact__row">
-            <span className="card__icon">
-              <Mail size={20} />
-            </span>
-            <div>
-              <strong>Email</strong>
-              <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-            </div>
-          </div>
-          <div className="contact__row">
-            <span className="card__icon">
-              <Phone size={20} />
-            </span>
-            <div>
-              <strong>Phone</strong>
-              <a href={`tel:${PROFILE.phone.replace(/\s/g, "")}`}>{PROFILE.phone}</a>
-            </div>
-          </div>
-
-          <hr />
-          <h4>Social links</h4>
-          <div className="contact__links">
-            <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
-              <FaLinkedin size={18} /> LinkedIn
-            </a>
-            <a href={PROFILE.github} target="_blank" rel="noreferrer">
-              <FaGithub size={18} /> GitHub
-            </a>
-            <a href={`mailto:${PROFILE.email}`}>
-              <Mail size={18} /> Email
-            </a>
-            <a href={`https://wa.me/${PROFILE.phoneRaw}`} target="_blank" rel="noreferrer">
-              <MessageCircle size={18} /> WhatsApp
-            </a>
-          </div>
-        </Reveal>
-
-        <Reveal variant="right" delay={150}>
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form__row">
-              <label>
-                Name *
-                <input name="name" type="text" placeholder="Your name" required />
-              </label>
-              <label>
-                Email *
-                <input name="email" type="email" placeholder="you@email.com" required />
-              </label>
-            </div>
-
-            <label>
-              Subject *
-              <select name="subject" required defaultValue="Job opportunity">
-                <option>Job opportunity</option>
-                <option>Freelance / Project</option>
-                <option>Collaboration</option>
-                <option>Other</option>
-              </select>
-            </label>
-
-            <label>
-              Message *
-              <textarea name="message" rows="5" placeholder="Write your message..." required />
-            </label>
-
-            <button type="submit" className="btn btn--primary btn--fit" disabled={status === "sending"}>
-              <Send size={18} /> {status === "sending" ? "Sending..." : "Send Message"}
-            </button>
-
-            {status === "success" && <p className="form__msg form__msg--ok">Thanks! Your message was sent.</p>}
-            {status === "error" && (
-              <p className="form__msg form__msg--err">
-                Something went wrong. Please email me directly at {PROFILE.email}.
+    <section className="section" id="contact">
+      <div className="container">
+        <SectionTitle eyebrow="Contact">
+          Let's build something <span className="grad-text">great</span>
+        </SectionTitle>
+        <div className="contact">
+          <Reveal variant="left">
+            <div className="card contact__panel">
+              <p className="contact__lead">
+                Open to Android Developer opportunities, specializing in Kotlin, Java, Jetpack Compose, and Kotlin
+                Multiplatform (KMP).
               </p>
-            )}
-            {status === "idle" && (
-              <p className="form__note">
-                Your message will be submitted through FormSubmit. You can also email me directly at{" "}
-                {PROFILE.email}.
-              </p>
-            )}
-          </form>
-        </Reveal>
+
+              <div className="contact__row">
+                <span className="icon-box">
+                  <Mail size={22} />
+                </span>
+                <div>
+                  <strong>Email</strong>
+                  <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+                </div>
+              </div>
+              <div className="contact__row">
+                <span className="icon-box">
+                  <Phone size={22} />
+                </span>
+                <div>
+                  <strong>Phone</strong>
+                  <a href={`tel:${PROFILE.phone.replace(/\s/g, "")}`}>{PROFILE.phone}</a>
+                </div>
+              </div>
+
+              <hr />
+              <h4>Social links</h4>
+              <div className="contact__links">
+                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
+                  <FaLinkedin size={18} /> LinkedIn
+                </a>
+                <a href={PROFILE.github} target="_blank" rel="noreferrer">
+                  <FaGithub size={18} /> GitHub
+                </a>
+                <a href={`mailto:${PROFILE.email}`}>
+                  <Mail size={18} /> Email
+                </a>
+                <a href={`https://wa.me/${PROFILE.phoneRaw}`} target="_blank" rel="noreferrer">
+                  <MessageCircle size={18} /> WhatsApp
+                </a>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal variant="right" delay={150}>
+            <form className="card form" onSubmit={handleSubmit}>
+              <div className="form__row">
+                <label>
+                  Name *
+                  <input name="name" type="text" placeholder="Your name" required />
+                </label>
+                <label>
+                  Email *
+                  <input name="email" type="email" placeholder="you@email.com" required />
+                </label>
+              </div>
+
+              <label>
+                Subject *
+                <select name="subject" required defaultValue="Job opportunity">
+                  <option>Job opportunity</option>
+                  <option>Freelance / Project</option>
+                  <option>Collaboration</option>
+                  <option>Other</option>
+                </select>
+              </label>
+
+              <label>
+                Message *
+                <textarea name="message" rows="5" placeholder="Write your message..." required />
+              </label>
+
+              <button type="submit" className="btn btn--primary btn--fit" disabled={status === "sending"}>
+                <Send size={18} /> {status === "sending" ? "Sending..." : "Send Message"}
+              </button>
+
+              {status === "success" && <p className="form__msg form__msg--ok">Thanks! Your message was sent.</p>}
+              {status === "error" && (
+                <p className="form__msg form__msg--err">
+                  Something went wrong. Please email me directly at {PROFILE.email}.
+                </p>
+              )}
+              {status === "idle" && (
+                <p className="form__note">
+                  Your message will be submitted through FormSubmit. You can also email me directly at{" "}
+                  {PROFILE.email}.
+                </p>
+              )}
+            </form>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -554,13 +655,11 @@ function Footer() {
     <footer className="footer">
       <div className="container footer__inner">
         <a href="#top" className="logo logo--sm">
-          Rahul<span>Dubey.</span>
+          Rahul<span>.</span>Dubey
         </a>
         <span className="footer__mid">Android Developer · {PROFILE.location}</span>
-        <SocialIcons size={20} />
-        <span className="footer__copy">
-          © {new Date().getFullYear()} Rahul Dubey. All rights reserved.
-        </span>
+        <SocialIcons size={18} />
+        <span className="footer__copy">© {new Date().getFullYear()} Rahul Dubey. All rights reserved.</span>
       </div>
     </footer>
   );
